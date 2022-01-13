@@ -41,11 +41,11 @@ class _PatientLoginPageState extends State<PatientLoginPage> {
                 ),
               ),
               Container(
-                // margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
-                height: height * 0.4,
+                margin: EdgeInsets.fromLTRB(0, 30, 0, 30),
+                height: height * 0.3,
                 width: width * 1,
-                child: Image.network(
-                  "https://www.seekpng.com/png/detail/251-2517178_blood-logo-www-blood-donation-png-logo.png",
+                child: Image.asset(
+                  "assets/logo.png",
                   fit: BoxFit.contain,
                 ),
               ),

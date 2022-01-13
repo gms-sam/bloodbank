@@ -50,7 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
           Container(
              height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
-                child: Image.network('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyFa4AjmU3IHfN-fIJ9IR208KsMWjO6cxlhamYTDrUfX5MQ7SYOBmW_cu7qguE_cmuFVo&usqp=CAU',fit: BoxFit.contain,),
+                child: Image.asset('assets/splash.jfif',fit: BoxFit.contain,),
           ),
           Container(
             decoration: BoxDecoration(

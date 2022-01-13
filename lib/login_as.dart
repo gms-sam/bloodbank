@@ -34,7 +34,7 @@ class LoginAs extends StatelessWidget {
              margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
               height: height * 0.3,
               width: width * 1,
-             child: Image.network("https://www.seekpng.com/png/detail/251-2517178_blood-logo-www-blood-donation-png-logo.png",fit: BoxFit.contain,),
+             child: Image.asset("assets/logo.png",fit: BoxFit.contain,),
             ),
             Container(
               alignment: Alignment.center,
