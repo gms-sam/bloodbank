@@ -1,4 +1,5 @@
 import 'package:bloodbank/login_as.dart';
+import 'package:bloodbank/p_home_page1.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,36 +9,46 @@ import 'patient_login.dart';
 import 'patient_request.dart';
 
 class PatientHomePage extends StatefulWidget {
-  const PatientHomePage({ Key? key }) : super(key: key);
+  String? _bloodGroup;
+  PatientHomePage({required String bloodGroup}){
+    this._bloodGroup = bloodGroup;
+  }
 
   @override
-  _PatientHomePageState createState() => _PatientHomePageState();
+  _PatientHomePageState createState() => _PatientHomePageState(_bloodGroup.toString());
 }
 
 class _PatientHomePageState extends State<PatientHomePage> {
+
+  String? _name,_age,_bloodGroup;
+
+  _PatientHomePageState(String bloodGroup){
+    this._bloodGroup = bloodGroup;
+  }
+  
    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-   late String? _name,_bloodGroup="AB-",_age;
+  // String? _name,_bloodGroup,_age;
    final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-   List<String> items=[
-    "A+","B+","AB+","O+","A-","B-","AB-","O-"
-  ];
+  //  List<String> items=[
+  //   "A+","B+","AB+","O+","A-","B-","AB-","O-"
+  // ];
   
   @override
   Widget build(BuildContext context) {
      final double height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.red,
-          child: Icon(Icons.logout),
-          onPressed: ()async{
-            SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-            setState(() {
-              sharedPreferences.remove("id");
-            });
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginAs()));
-          },
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   backgroundColor: Colors.red,
+        //   child: Icon(Icons.logout),
+        //   onPressed: ()async{
+        //     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+        //     setState(() {
+        //       sharedPreferences.remove("id");
+        //     });
+        //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginAs()));
+        //   },
+        // ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -122,19 +133,19 @@ class _PatientHomePageState extends State<PatientHomePage> {
                           ),
                         ),
 
-                        Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text("Select Your Blood Group : ",style: TextStyle(fontSize: 18),),
-                    DropdownButton<String>(
-                      value: _bloodGroup,
-                      items: items.map(buildMenuItem).toList(),
-                      onChanged: (value)=>setState(() {
-                        this._bloodGroup = value!;
-                      }),
-                    ),
-                  ],
-                ),
+                //         Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                //   children: [
+                //     Text("Select Your Blood Group : ",style: TextStyle(fontSize: 18),),
+                //     DropdownButton<String>(
+                //       value: _bloodGroup,
+                //       items: items.map(buildMenuItem).toList(),
+                //       onChanged: (value)=>setState(() {
+                //         this._bloodGroup = value!;
+                //       }),
+                //     ),
+                //   ],
+                // ),
     
                         SizedBox(
                           height: 60,
@@ -160,27 +171,27 @@ class _PatientHomePageState extends State<PatientHomePage> {
                           ),
                         ),
 
-                        InkWell(
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>PatientRequest()));
-                          },
-                          child: Container(
-                            margin: EdgeInsets.all(10),
-                            height: height * 0.07,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.red),
-                                borderRadius: BorderRadius.circular(15)),
-                            child: Center(
-                                child: Text(
-                              "View Approved Request",
-                              style: TextStyle(
+                        // InkWell(
+                        //   onTap: (){
+                        //     Navigator.push(context, MaterialPageRoute(builder: (context)=>PatientRequest()));
+                        //   },
+                        //   child: Container(
+                        //     margin: EdgeInsets.all(10),
+                        //     height: height * 0.07,
+                        //     width: double.infinity,
+                        //     decoration: BoxDecoration(
+                        //       border: Border.all(color: Colors.red),
+                        //         borderRadius: BorderRadius.circular(15)),
+                        //     child: Center(
+                        //         child: Text(
+                        //       "View Approved Request",
+                        //       style: TextStyle(
                                   
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20),
-                            )),
-                          ),
-                        ),
+                        //           fontWeight: FontWeight.bold,
+                        //           fontSize: 20),
+                        //     )),
+                        //   ),
+                        // ),
     
                         // InkWell(
                         //     child: Container(
@@ -219,6 +230,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
     if (formState!.validate()) {
       formState.save();
       saveName();
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>PatientHomePage1()));
       // if (_email == "admin@gmail.com" && _password == "password") {
       //   sharedPreferences.setString("id", "2");
       //   Navigator.pushReplacement(context,
@@ -228,10 +240,11 @@ class _PatientHomePageState extends State<PatientHomePage> {
     }
   }
   void saveName(){
-    String name = _name!;
-    String bloodGroup = _bloodGroup!;
-    String age = _age!;
-    saveData(name, bloodGroup, age).then((bool committed){
+   // if(_age.!<=81)
+    // String name = _name!;
+    // String bloodGroup = _bloodGroup!;
+    // String age = _age!;
+    saveData(_name!, _bloodGroup!, _age!).then((bool committed){
        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.red,
           content: Text("Request Submitted",style: TextStyle(color: Colors.white),),

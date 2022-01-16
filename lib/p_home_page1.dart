@@ -1,18 +1,18 @@
-import 'package:bloodbank/login_as.dart';
-import 'package:bloodbank/patient_home_page.dart';
+import 'package:bloodbank/patient_request.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'admin_request_page.dart';
+import 'login_as.dart';
+import 'patient_home_page.dart';
 
-class AdminHomePage extends StatefulWidget {
-  const AdminHomePage({ Key? key }) : super(key: key);
+class PatientHomePage1 extends StatefulWidget {
+  const PatientHomePage1({ Key? key }) : super(key: key);
 
   @override
-  State<AdminHomePage> createState() => _AdminHomePageState();
+  State<PatientHomePage1> createState() => _PatientHomePage1State();
 }
 
-class _AdminHomePageState extends State<AdminHomePage> {
+class _PatientHomePage1State extends State<PatientHomePage1> {
   @override
   Widget build(BuildContext context) {
      final double height = MediaQuery.of(context).size.height;
@@ -39,7 +39,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
               height: height * 0.053,
               width: width * 1,
               child: Text(
-                'Available Blood per group in Liters',
+                'Please Selct Blood Group',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 30),
@@ -59,7 +59,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
             ),
             InkWell(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminRequestPage()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>PatientRequest()));
               },
               child: Container(
                 margin: EdgeInsets.all(20),
@@ -71,12 +71,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text("todays Request",style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold,color: Colors.white),),
+                    Text("View Approved Request",style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold,color: Colors.white),),
                     Icon(Icons.navigate_next,color: Colors.white,)
                   ],
                 ),
               ),
-            )
+            ),
+
           ],
         )
       ),
@@ -95,16 +96,18 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     border: Border.all(color: Colors.red)
                   ),
                   margin: EdgeInsets.only(left: 10,top: 30,bottom: 10,right: 10),
-                  padding: EdgeInsets.only(left: 30,top: 10,bottom: 10),
+                  padding: EdgeInsets.only(top: 10,bottom: 10),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text(quantity,style: TextStyle(fontSize: 20),),
                       SizedBox(width: 40,),
                       Text(bloodGroup,style: TextStyle(fontSize: 20),),
-                      Image.network("https://image.pngaaa.com/330/741330-middle.png",height: 50,) 
+                      Image.asset("assets/blood.png",height: 50,) 
                     ],
                   ),
                 ),
     );
   }
+
+
 }

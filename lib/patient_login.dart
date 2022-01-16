@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'p_home_page1.dart';
 import 'patient_home_page.dart';
 
 class PatientLoginPage extends StatefulWidget {
@@ -187,7 +188,7 @@ class _PatientLoginPageState extends State<PatientLoginPage> {
       if (_email == "email@gmail.com" && _password == "password") {
         sharedPreferences.setString("id", "1");
         Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => PatientHomePage()));
+            MaterialPageRoute(builder: (context) => PatientHomePage1()));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("Invalid credential"),

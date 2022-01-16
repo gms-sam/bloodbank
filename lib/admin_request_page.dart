@@ -20,9 +20,11 @@ class _AdminRequestPageState extends State<AdminRequestPage> {
     // _name = sharedPreferences.getString("name");
     // _age = sharedPreferences.getString("age");
     // _bloodGroup = sharedPreferences.getString("bloodGroup");
-    getData().then(updateName);
+    setState(() {
+      getData().then(updateName);
      getData1().then(updateName1);
       getData2().then(updateName2);
+    });
     super.initState();
   }
   @override
@@ -32,10 +34,8 @@ class _AdminRequestPageState extends State<AdminRequestPage> {
         body: Center(
           child: Column(
             children: [
-             if(_name == null||_age == null||_bloodGroup== null)
-              Center(child: Text("No Request"),)
-              else
-              Container(
+             _bloodGroup == "A+"||_bloodGroup=="B+"||_bloodGroup=="AB+"||_bloodGroup=="A-"||_bloodGroup=="B-"||_bloodGroup=="AB-"||_bloodGroup=="O+"||_bloodGroup=="O-"? 
+             Container(
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.red),
                   borderRadius: BorderRadius.circular(15)
@@ -91,7 +91,8 @@ class _AdminRequestPageState extends State<AdminRequestPage> {
                 )
                   ],
                 ),
-              )
+              ):
+             Center(child: Text("No Request"),)
             ],
           ),
         ),

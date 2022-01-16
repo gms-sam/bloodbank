@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloodbank/login_as.dart';
+import 'package:bloodbank/p_home_page1.dart';
 import 'package:bloodbank/patient_login.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
    getValidationData().whenComplete(()async{
       Timer(Duration(seconds: 5),(){
      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>
-     finalId=="1"?PatientHomePage():finalId=="2"?AdminHomePage():LoginAs()
+     finalId=="1"?PatientHomePage1():finalId=="2"?AdminHomePage():LoginAs()
      ));
     } );
    });

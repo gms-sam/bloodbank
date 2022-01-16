@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bloodbank/p_home_page1.dart';
 import 'package:bloodbank/patient_home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,10 +21,12 @@ class _PatientRequestState extends State<PatientRequest> {
     // _name = sharedPreferences.getString("name");
     // _age = sharedPreferences.getString("age");
     // _bloodGroup = sharedPreferences.getString("bloodGroup");
-    getData().then(updateName);
+   setState(() {
+      getData().then(updateName);
      getData1().then(updateName1);
       getData2().then(updateName2);
       getData3().then(updateName3);
+   });
     super.initState();
   }
 
@@ -34,9 +37,7 @@ class _PatientRequestState extends State<PatientRequest> {
         body: Center(
           child: Column(
             children: [
-             if(_status == null||_name1 == null||_age1 == null||_bloodGroup1 == null)
-              Center(child: Text("No request"),)
-              else
+             _bloodGroup1 == "A+"||_bloodGroup1=="B+"||_bloodGroup1=="AB+"||_bloodGroup1=="A-"||_bloodGroup1=="B-"||_bloodGroup1=="AB-"||_bloodGroup1=="O+"||_bloodGroup1=="O-"?
               Container(
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.red),
@@ -71,13 +72,14 @@ class _PatientRequestState extends State<PatientRequest> {
                         sharedPreferences.remove("name1");
                         sharedPreferences.remove("age1");
                         sharedPreferences.remove("bloodGroup1");
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>PatientHomePage()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>PatientHomePage1()));
                       },),
                   ],
                 )
                   ],
                 ),
-              )
+              ):
+              Center(child: Text("No request"),)
             ],
           ),
         ),
