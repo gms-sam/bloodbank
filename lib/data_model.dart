@@ -1,40 +1,38 @@
 import 'dart:convert';
 
 class DataModel {
-  late String name;
+  late String quantity;
   late String bloodGroup;
-  late String age;
   DataModel({
-    required this.name,
+    required this.quantity,
     required this.bloodGroup,
-    required this.age,
   });
 
   DataModel copyWith({
-    required String name,
+    required String quantity,
     required String bloodGroup,
-    required String age,
+    
   }) {
     return DataModel(
-      name: name,
+      quantity: quantity,
       bloodGroup: bloodGroup,
-      age: age,
+      
     );
   }
 
   DataModel merge(DataModel model) {
     return DataModel(
-      name: model.name,
+      quantity: model.quantity,
       bloodGroup: model.bloodGroup,
-      age: model.age,
+      
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'name': name,
+      'quantity': quantity,
       'bloodGroup': bloodGroup,
-      'age': age,
+      
     };
   }
 
@@ -42,9 +40,9 @@ class DataModel {
 
   
     return DataModel(
-      name: map['name'],
+      quantity: map['quantity'],
       bloodGroup: map['bloodGroup'],
-      age: map['age'],
+      
     );
   }
 
@@ -53,18 +51,17 @@ class DataModel {
   factory DataModel.fromJson(String source) => DataModel.fromMap(json.decode(source));
 
   @override
-  String toString() => 'DataModel(name: $name, bloodGroup: $bloodGroup, age: $age)';
+  String toString() => 'DataModel(quantity: $quantity, bloodGroup: $bloodGroup,)';
 
   @override
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
   
     return o is DataModel &&
-      o.name == name &&
-      o.bloodGroup == bloodGroup &&
-      o.age == age;
+      o.quantity == quantity &&
+      o.bloodGroup == bloodGroup;
   }
 
   @override
-  int get hashCode => name.hashCode ^ bloodGroup.hashCode ^ age.hashCode;
+  int get hashCode => quantity.hashCode ^ bloodGroup.hashCode ;
 }

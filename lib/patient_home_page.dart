@@ -228,7 +228,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final formState = _formKey.currentState;
     if (formState!.validate()) {
-      formState.save();
+      formState.save(); 
       saveName();
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>PatientHomePage1()));
       // if (_email == "admin@gmail.com" && _password == "password") {
