@@ -1,5 +1,61 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
+class RequestModel {
+  final List<DataModel> dataModel;
+  RequestModel({
+    required this.dataModel,
+  });
+
+  RequestModel copyWith({
+    required List<DataModel> dataModel,
+  }) {
+    return RequestModel(
+      dataModel: dataModel,
+    );
+  }
+
+  RequestModel merge(RequestModel model) {
+    return RequestModel(
+      dataModel: model.dataModel,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'dataModel': dataModel.map((x) => x.toMap()).toList(),
+    };
+  }
+
+  factory RequestModel.fromMap(Map<String, dynamic> map) {
+    
+  
+    return RequestModel(
+      dataModel: List<DataModel>.from(map['dataModel']?.map((x) => DataModel.fromMap(x))),
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory RequestModel.fromJson(String source) => RequestModel.fromMap(json.decode(source));
+
+  @override
+  String toString() => 'RequestModel(dataModel: $dataModel)';
+
+  @override
+  bool operator ==(Object o) {
+    if (identical(this, o)) return true;
+  
+    return o is RequestModel &&
+      listEquals(o.dataModel, dataModel);
+  }
+
+  @override
+  int get hashCode => dataModel.hashCode;
+}
+
+
 class DataModel {
   late String name;
   late String age;
