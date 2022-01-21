@@ -1,3 +1,4 @@
+import 'package:bloodbank/data_model.dart';
 import 'package:bloodbank/login_as.dart';
 import 'package:bloodbank/p_home_page1.dart';
 import 'package:flutter/foundation.dart';
@@ -137,6 +138,8 @@ class _PatientHomePageState extends State<PatientHomePage> {
                 //   mainAxisAlignment: MainAxisAlignment.spaceAround,
                 //   children: [
                 //     Text("Select Your Blood Group : ",style: TextStyle(fontSize: 18),),
+                //Yaha se blood bank ka order request jayega?
+                //ha
                 //     DropdownButton<String>(
                 //       value: _bloodGroup,
                 //       items: items.map(buildMenuItem).toList(),
@@ -233,6 +236,7 @@ class _PatientHomePageState extends State<PatientHomePage> {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>PatientHomePage1()));
       // if (_email == "admin@gmail.com" && _password == "password") {
       //   sharedPreferences.setString("id", "2");
+      //model kaha hai
       //   Navigator.pushReplacement(context,
       //       MaterialPageRoute(builder: (context) => AdminHomePage()));
       // } else {
@@ -254,11 +258,32 @@ class _PatientHomePageState extends State<PatientHomePage> {
 
   Future<bool> saveData(String name,String bloodGroup,String age)async{
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setString("name",name);
+    DataModel dataModel = DataModel(name: name, bloodGroup: bloodGroup, age: age,status: false);
+
+    ///This is to get all the request
+    List<String>? allReq = await sharedPreferences.getStringList('req');
+    if(allReq!=null){
+      ///Convert string request to model
+      List<DataModel> allModel = allReq.map((e) => DataModel.fromJson(e)).toList();
+      allModel.add(dataModel);
+      
+      ///Replace the request list
+      await sharedPreferences.setStringList('req', allModel.map((e) => e.toJson()).toList());
+    }else{
+
+      ///Add new element if there is no request already
+      
+      await sharedPreferences.setStringList('req', [dataModel].map((e) => e.toJson()).toList());
+    }
+    /* sharedPreferences.setString("name",name);
+
       sharedPreferences.setString("bloodGroup",bloodGroup);
-      sharedPreferences.setString("age",age);
+
+      sharedPreferences.setString("age",age); */
       return sharedPreferences.commit();
   }
+
+  
 
  
 

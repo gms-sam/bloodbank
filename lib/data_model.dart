@@ -60,20 +60,24 @@ class DataModel {
   late String name;
   late String age;
   late String bloodGroup;
+  late bool status;
   DataModel({
     required this.name,
     required this.age,
+    required this.status,
     required this.bloodGroup,
   });
 
   DataModel copyWith({
     required String age,
     required String name,
+    required bool status,
     required String bloodGroup,
     
   }) {
     return DataModel(
       name: name,
+      status: status,
       age:  age,
       bloodGroup: bloodGroup,
       
@@ -84,6 +88,7 @@ class DataModel {
     return DataModel(
       name: model.name,
       age:  model.age,
+      status: model.status,
       bloodGroup: model.bloodGroup,
       
     );
@@ -93,6 +98,7 @@ class DataModel {
     return {
       'name': name,
       'age': age,
+      'status':status,
       'bloodGroup': bloodGroup,
       
     };
@@ -104,6 +110,7 @@ class DataModel {
     return DataModel(
       name: map['name'],
       age:  map['age'],
+      status: map['status'],
       bloodGroup: map['bloodGroup'],
       
     );
@@ -114,7 +121,7 @@ class DataModel {
   factory DataModel.fromJson(String source) => DataModel.fromMap(json.decode(source));
 
   @override
-  String toString() => 'DataModel(name: $name,age: $age, bloodGroup: $bloodGroup,)';
+  String toString() => 'DataModel(name: $name,age: $age,status $status, bloodGroup: $bloodGroup,)';
 
   @override
   bool operator ==(Object o) {
@@ -122,10 +129,11 @@ class DataModel {
   
     return o is DataModel &&
       o.name == name &&
+      o.status == status &&
       o.age == age &&
       o.bloodGroup == bloodGroup;
   }
 
   @override
-  int get hashCode => name.hashCode ^ age.hashCode ^ bloodGroup.hashCode ;
+  int get hashCode => name.hashCode ^status.hashCode^ age.hashCode ^ bloodGroup.hashCode ;
 }
