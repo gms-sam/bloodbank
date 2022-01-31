@@ -5,6 +5,8 @@ import 'package:bloodbank/patient_home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'data_model.dart';
+
 class PatientRequest extends StatefulWidget {
   const PatientRequest({ Key? key }) : super(key: key);
 
@@ -15,73 +17,154 @@ class PatientRequest extends StatefulWidget {
 class _PatientRequestState extends State<PatientRequest> {
   String? _name1,_bloodGroup1,_age1,_status;
 
-  void initState(){
-    // TODO: implement initState
-    // SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    // _name = sharedPreferences.getString("name");
-    // _age = sharedPreferences.getString("age");
-    // _bloodGroup = sharedPreferences.getString("bloodGroup");
-   setState(() {
-      getData().then(updateName);
-     getData1().then(updateName1);
-      getData2().then(updateName2);
-      getData3().then(updateName3);
-   });
-    super.initState();
+  List<DataModel> dataModel = [];
+
+  Future<List<DataModel>> getDataModel() async {
+    var instance = await SharedPreferences.getInstance();
+    var list = instance.getStringList('pateint');
+    if (list != null) {
+      dataModel = list.map((e) => DataModel.fromJson(e)).toList();
+      return dataModel;
+    } else {
+      return Future.error("Data is null");
+    }
   }
+
+  // void initState(){
+  //   // TODO: implement initState
+  //   // SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  //   // _name = sharedPreferences.getString("name");
+  //   // _age = sharedPreferences.getString("age");
+  //   // _bloodGroup = sharedPreferences.getString("bloodGroup");
+  //  setState(() {
+  //     getData().then(updateName);
+  //    getData1().then(updateName1);
+  //     getData2().then(updateName2);
+  //     getData3().then(updateName3);
+  //  });
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Center(
-          child: Column(
-            children: [
-             _bloodGroup1 == "A+"||_bloodGroup1=="B+"||_bloodGroup1=="AB+"||_bloodGroup1=="A-"||_bloodGroup1=="B-"||_bloodGroup1=="AB-"||_bloodGroup1=="O+"||_bloodGroup1=="O-"?
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.red),
-                  borderRadius: BorderRadius.circular(15)
-                ),
-                margin: EdgeInsets.all(20),
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Name : $_name1",style: TextStyle(fontSize: 30,  ),),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Blood Group : $_bloodGroup1",style: TextStyle(fontSize: 30,),),
-                    Text("Age : $_age1",style: TextStyle(fontSize: 30,  ),),
-                    
-                  ],
-                ),
-                SizedBox(height: 20,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text("Your Request is : $_status",style: TextStyle(fontSize: 20),),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.red
-                      ),
-                      child: Icon(Icons.delete),
-                      onPressed: ()async{
-                        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-                        sharedPreferences.remove("name1");
-                        sharedPreferences.remove("age1");
-                        sharedPreferences.remove("bloodGroup1");
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>PatientHomePage1()));
-                      },),
-                  ],
-                )
-                  ],
-                ),
-              ):
-              Center(child: Text("No request"),)
-            ],
-          ),
+        body: SingleChildScrollView(
+          child: FutureBuilder<List<DataModel>>(
+              future: getDataModel(),
+              builder: (context, snapshot) {
+                if (snapshot.data!=null&&snapshot.data!.isEmpty) {
+                  return const Center(
+                    child: Text("No Request"),
+                  );
+                }
+                final list = dataModel;
+
+                return Column(
+                    children: list
+                        .map(
+                          (e) => Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.red),
+                                borderRadius: BorderRadius.circular(15)),
+                            margin: EdgeInsets.all(20),
+                            padding: EdgeInsets.all(20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Name : ${e.name}",
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Blood Group : ${e.bloodGroup}",
+                                      style: TextStyle(
+                                        fontSize: 30,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Age : ${e.age}",
+                                      style: TextStyle(
+                                        fontSize: 30,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Colors.red),
+                                      child: Icon(Icons.delete),
+                                      onPressed: () async {
+                                        SharedPreferences
+                                            sharedPreferences =
+                                            await SharedPreferences
+                                                .getInstance();
+                                        List<DataModel> newData = list;
+                                        newData.remove(e);
+                                        // List<String>? data2 =
+                                        //     sharedPreferences
+                                        //         .getStringList('pateint');
+                                        // List<DataModel> patientData = [];
+                                        // if (data2 != null) {
+                                        //   patientData = data2
+                                        //       .map((e) =>
+                                        //           DataModel.fromJson(e))
+                                        //       .toList();
+                                        //   // patientData.add(e.copyWith(
+                                        //   //     age: e.age,
+                                        //   //     name: e.name,
+                                        //   //     status: false,
+                                        //   //     bloodGroup: e.bloodGroup));
+                                        // } else {
+                                        //   patientData.add(e.copyWith(
+                                        //       age: e.age,
+                                        //       name: e.name,
+                                        //       status: false,
+                                        //       bloodGroup: e.bloodGroup));
+                                        // }
+                                        //e= e.copyWith(age: e.age, name: e.name, status: true, bloodGroup: e.bloodGroup);
+
+                                        sharedPreferences.setStringList(
+                                            'pateint',
+                                            newData
+                                                .map((e) => e.toJson())
+                                                .toList());
+                                        // sharedPreferences.setStringList(
+                                        //     'req',
+                                        //     newData
+                                        //         .map((e) => e.toJson())
+                                        //         .toList());
+                                        await getDataModel();
+                                        setState(() {});
+                                        Navigator.pop(context);
+                                        // Navigator.push(
+                                        //     context,
+                                        //     MaterialPageRoute(
+                                        //         builder: (context) =>
+                                        //             PatientHomePage1()));
+                                      },
+                                    ),
+                                    e.status==true?Text("Your request is Accepted",style: TextStyle(fontSize: 20),):Text("Your Request is Rejected",style: TextStyle(fontSize: 20),)
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                        .toList());
+              }),
         ),
       ),
     );
